@@ -11,9 +11,9 @@ load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Database
+# Database — defaults to SQLite for portable execution; set DATABASE_URL for PostgreSQL
 DATABASE_URL: str = os.getenv(
-    "DATABASE_URL", "postgresql://user:password@localhost:5432/pet_nutra_intel"
+    "DATABASE_URL", f"sqlite:///{BASE_DIR / 'pet_nutra_intel.db'}"
 )
 DB_ECHO: bool = os.getenv("DB_ECHO", "false").lower() == "true"
 
@@ -43,3 +43,18 @@ LOG_FILE: str = os.getenv("LOG_FILE", str(BASE_DIR / "logs" / "pet_nutra_intel.l
 # Feature flags
 SOURCE_ALFAVET_ENABLED: bool = os.getenv("SOURCE_ALFAVET_ENABLED", "true").lower() == "true"
 SOURCE_CHEWY_ENABLED: bool = os.getenv("SOURCE_CHEWY_ENABLED", "true").lower() == "true"
+
+# Alerting
+SLACK_WEBHOOK_URL: str = os.getenv("SLACK_WEBHOOK_URL", "")
+SMTP_HOST: str = os.getenv("SMTP_HOST", "")
+SMTP_PORT: int = int(os.getenv("SMTP_PORT", "587"))
+SMTP_USER: str = os.getenv("SMTP_USER", "")
+SMTP_PASSWORD: str = os.getenv("SMTP_PASSWORD", "")
+ALERT_EMAIL_TO: str = os.getenv("ALERT_EMAIL_TO", "")
+ALERT_EMAIL_FROM: str = os.getenv("ALERT_EMAIL_FROM", "pet-nutra-intel@alfavet.de")
+
+# Additional sources
+SOURCE_ZOOPLUS_ENABLED: bool = os.getenv("SOURCE_ZOOPLUS_ENABLED", "true").lower() == "true"
+SOURCE_AMAZON_ENABLED: bool = os.getenv("SOURCE_AMAZON_ENABLED", "false").lower() == "true"
+ZOOPLUS_BASE_URL: str = os.getenv("ZOOPLUS_BASE_URL", "https://www.zooplus.de/")
+AMAZON_BASE_URL: str = os.getenv("AMAZON_BASE_URL", "https://www.amazon.de/")

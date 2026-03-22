@@ -121,6 +121,13 @@ def run_weekly_chewy() -> None:
         logger.info("Weekly reports saved to %s", reports_dir)
         print("\n" + competitor_report)
 
+        # Send alerts
+        try:
+            from reports.alerting import send_weekly_report
+            send_weekly_report(competitor_report)
+        except Exception as exc:
+            logger.warning("Failed to send alerts: %s", exc)
+
     except Exception as exc:
         logger.error("Weekly Chewy job failed: %s", exc, exc_info=True)
         session.rollback()
